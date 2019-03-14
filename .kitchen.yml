@@ -1,0 +1,22 @@
+---
+driver:
+  name: ec2
+  instance_type: t2.micro
+
+transport:
+  username: ubuntu
+
+provisioner:
+  name: shell
+
+platforms:
+  - name: ubuntu
+    driver: 
+      image_id: ami-0c2073f0a75d77a95
+      region: us-east-1
+
+verifier:
+  name: inspec
+
+suites:
+- name: default
