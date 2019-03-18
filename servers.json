@@ -4,26 +4,26 @@
         "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
         "region":         "us-east-1"
     },
-    "builders": [
-        {
-            "access_key": "{{user `aws_access_key`}}",
-            "ami_name": "packer-consul-server-xemial64-{{timestamp}}",
-            "instance_type": "t2.micro",
-            "region": "us-east-1",
-            "secret_key": "{{user `aws_secret_key`}}",
-            "source_ami_filter": {
-              "filters": {
-              "virtualization-type": "hvm",
-              "name": "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*",
-              "root-device-type": "ebs"
-              },
-              "owners": ["099720109477"],
-              "most_recent": true
-            },
-            "ssh_username": "ubuntu",
-            "type": "amazon-ebs"
-        }
-    ],
+    "builders": [{
+        "name": "ubuntu16-ami",
+        "ami_name": "consul-server-ubuntu-{{isotime | clean_ami_name}}",
+        "ami_description": "An Ubuntu 16.04 AMI that has Consul installed.",
+        "instance_type": "t2.micro",
+        "region": "{{user `aws_region`}}",
+        "type": "amazon-ebs",
+        "source_ami_filter": {
+          "filters": {
+            "virtualization-type": "hvm",
+            "architecture": "x86_64",
+            "name": "*ubuntu-xenial-16.04-amd64-server-*",
+            "block-device-mapping.volume-type": "gp2",
+            "root-device-type": "ebs"
+          },
+          "owners": ["099720109477"],
+          "most_recent": true
+        },
+        "ssh_username": "ubuntu"
+    }],
     "provisioners": [
         {
             "type": "file",
@@ -38,9 +38,10 @@
             ]
         },
         {
-        "type": "shell"
-        ,"execute_command": "sudo env {{ .Vars }} {{ .Path }}"
-        ,"scripts": ["./provision.sh"]
+        "type": "shell",
+        "execute_command": "sudo env {{ .Vars }} {{ .Path }}",
+        "scripts": ["./provision.sh"],
+        "expect_disconnect": true
       }
     ]
 }

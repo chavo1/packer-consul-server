@@ -1,19 +1,34 @@
 #!/bin/bash
 
-export DEBIAN_FRONTEND=noninteractive
-CONSUL=1.4.3
-
 set -x
-echo "Starting provision..."
-echo "Updating system..."
+mkdir -p /etc/dpkg/dpkg.cfg.d
+cat >/etc/dpkg/dpkg.cfg.d/01_nodoc <<EOF
+path-exclude /usr/share/doc/*
+path-include /usr/share/doc/*/copyright
+path-exclude /usr/share/man/*
+path-exclude /usr/share/groff/*
+path-exclude /usr/share/info/*
+path-exclude /usr/share/lintian/*
+path-exclude /usr/share/linda/*
+EOF
 
-sudo apt-get update
+export DEBIAN_FRONTEND=noninteractive
+export APTARGS="-qq -o=Dpkg::Use-Pty=0"
+export CONSUL=1.4.3
 
+apt-get clean ${APTARGS}
+apt-get update ${APTARGS}
+
+apt-get upgrade -y ${APTARGS}
+apt-get dist-upgrade -y ${APTARGS}
+
+# unzip
 echo "Installing packages"
 which unzip &>/dev/null || {
-sudo apt-get update -y
-sudo apt-get install unzip -y 
+sudo apt-get update -y ${APTARGS}
+sudo apt-get install unzip -y ${APTARGS}
 }
+
 echo "Installing consul..."
 # check consul binary
 which consul || {
@@ -96,3 +111,17 @@ sudo systemctl daemon-reload
 
 echo "Finished provisioning"
 set +x
+
+# Update to the latest kernel
+apt-get install -y linux-generic linux-image-generic ${APTARGS}
+
+# build-essential
+apt-get install -y build-essential ${APTARGS}
+
+# Hide Ubuntu splash screen during OS Boot, so you can see if the boot hangs
+apt-get remove -y plymouth-theme-ubuntu-text
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT=""/' /etc/default/grub
+update-grub
+
+# Reboot with the new kernel
+shutdown -r now
