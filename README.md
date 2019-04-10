@@ -1,20 +1,22 @@
 #packer-consul-server
 ## Usage example:
-### This will build an AWS AMI with consul server installed. If you need a specific version of [Consul](https://www.consul.io/). 
-- Please change it into "provision.sh" script:
-```
-CONSUL=1.4.3
-```
+### This will build an AWS AMI with [Consul](https://www.consul.io/) server installed . 
+
 - Export you AWS keys:
 ```
 export AWS_ACCESS_KEY_ID=MYACCESSKEYID
 export AWS_SECRET_ACCESS_KEY=MYSECRETACCESSKEY
 ```
-- From your CLI execute a following command:
+- If you need the latest version of Consul - from your CLI execute a following command:
 
 ```
 sudo packer build xenial.json
 ``` 
+If you need specific version 
+```
+sudo packer build -var 'CONSUL=1.4.2' servers.json
+``` 
+
 For more info please check a following link:
 
 https://www.packer.io/intro/getting-started/build-image.html#some-more-examples-

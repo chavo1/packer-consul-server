@@ -39,7 +39,7 @@
         },
         {
         "type": "shell",
-        "execute_command": "sudo env {{ .Vars }} {{ .Path }}",
+        "execute_command": "sudo env {{ .Vars }} {{ .Path }} {{user `CONSUL`}}",
         "scripts": ["./provision.sh"],
         "expect_disconnect": true
       }
