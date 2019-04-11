@@ -26,15 +26,9 @@
     }],
     "provisioners": [
         {
-            "type": "file",
-            "source": "./welcome.txt",
-            "destination": "/home/ubuntu/"
-        },
-        {
             "type": "shell",
             "inline":[
-                "ls -al /home/ubuntu",
-                "cat /home/ubuntu/welcome.txt"
+                "ls -al /home/ubuntu"
             ]
         },
         {

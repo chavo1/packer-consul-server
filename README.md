@@ -1,4 +1,4 @@
-#packer-consul-server
+# The repo contains Packer that build an AWS AMI with Consul server - the AMI is Xenial64 based with latest updates.
 ## Usage example:
 ### This will build an AWS AMI with [Consul](https://www.consul.io/) server installed . 
 
