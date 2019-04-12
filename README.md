@@ -10,7 +10,7 @@ export AWS_SECRET_ACCESS_KEY=MYSECRETACCESSKEY
 - If you need the latest version of Consul - from your CLI execute a following command:
 
 ```
-sudo packer build xenial.json
+sudo packer build servers.json
 ``` 
 If you need specific version 
 ```
