@@ -66,7 +66,6 @@ chown -R consul:consul /opt/consul
 chmod -R 775 /opt/consul
 chown -R consul:consul /etc/consul.d/
 chmod -R 775 /etc/consul.d/
-killall consul
 
 ####################################
 # Consul Server systemd Unit file  #
@@ -120,7 +119,7 @@ EOF
 systemctl daemon-reload
 
 echo "Finished provisioning"
-set +x
+
 
 # Update to the latest kernel
 apt-get install -y linux-generic linux-image-generic ${APTARGS}
@@ -135,3 +134,5 @@ update-grub
 
 # Reboot with the new kernel
 shutdown -r now
+
+set +x

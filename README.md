@@ -14,7 +14,7 @@ sudo packer build servers.json
 ``` 
 If you need specific version 
 ```
-sudo packer build -var 'CONSUL=1.4.2' servers.json
+sudo packer build -var 'CONSUL=1.8.3' servers.json
 ``` 
 
 For more info please check a following link:
