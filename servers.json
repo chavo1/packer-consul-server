@@ -6,7 +6,7 @@
     },
     "builders": [{
         "name": "ubuntu16-ami",
-        "ami_name": "consul-server-ubuntu-{{isotime | clean_ami_name}}",
+        "ami_name": "consul-server-ubuntu-{{isotime | clean_resource_name}}",
         "ami_description": "An Ubuntu 16.04 AMI that has Consul installed.",
         "instance_type": "t2.micro",
         "region": "{{user `aws_region`}}",
